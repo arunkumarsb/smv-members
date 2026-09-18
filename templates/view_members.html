@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h1>Members</h1>
+
+  {% if members %}
+  <table>
+    <thead>
+      <tr>
+        <th>Photo</th>
+        <th>Name</th>
+        <th>Designation</th>
+        <th>Site Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in members %}
+      <tr>
+        <td><img class="thumb" src="{{ url_for('static', filename='uploads/thumbs/' + m.photo) }}" alt="{{ m.name }}"></td>
+        <td>{{ m.name }}</td>
+        <td>{{ m.designation }}</td>
+        <td>{{ m.site_number }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No members yet. <a href="{{ url_for('add_member') }}">Add one</a>.</p>
+  {% endif %}
+</div>
+{% endblock %}

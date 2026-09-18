@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h1>Welcome to Member Roster</h1>
+  <p>Manage your member list, add new members with a photo, and export the
+  full roster as a PDF.</p>
+  <p>Currently <strong>{{ member_count }}</strong> member(s) on file.</p>
+  <p>
+    <a class="btn-link" href="{{ url_for('add_member') }}">Add a Member</a>
+  </p>
+</div>
+{% endblock %}

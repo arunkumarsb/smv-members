@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h1>Add Member</h1>
+
+  {% if errors %}
+  <div class="errors">
+    <ul style="margin:0; padding-left:18px;">
+      {% for e in errors %}
+      <li>{{ e }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <form method="post" enctype="multipart/form-data">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" value="{{ form.get('name', '') }}">
+
+    <label for="designation">Designation</label>
+    <input type="text" id="designation" name="designation" value="{{ form.get('designation', '') }}">
+
+    <label for="site_number">Site Number</label>
+    <input type="text" id="site_number" name="site_number" value="{{ form.get('site_number', '') }}">
+
+    <label for="photo">Photo</label>
+    <input type="file" id="photo" name="photo" accept="image/*">
+
+    <button type="submit">Save Member</button>
+  </form>
+</div>
+{% endblock %}

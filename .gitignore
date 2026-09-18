@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.pyc
+
+data/members.json
+static/uploads/*.jpg
+static/uploads/*.png
+static/uploads/*.jpeg
+static/uploads/*.gif
+static/uploads/*.webp
+static/uploads/*.bmp
+static/uploads/thumbs/*.jpg
