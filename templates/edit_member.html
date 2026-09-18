@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="card">
-  <h1>Add Member</h1>
+  <h1>Edit Member</h1>
 
   {% if errors %}
   <div class="errors">
@@ -26,10 +26,10 @@
     <label for="phone_number">Phone Number</label>
     <input type="tel" id="phone_number" name="phone_number" value="{{ form.get('phone_number', '') }}">
 
-    <label for="photo">Photo</label>
+    <label for="photo">Photo (leave blank to keep current)</label>
     <input type="file" id="photo" name="photo" accept="image/*">
 
-    <button type="submit">Save Member</button>
+    <button type="submit">Save Changes</button>
   </form>
 </div>
 {% endblock %}

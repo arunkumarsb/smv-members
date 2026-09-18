@@ -11,6 +11,7 @@
         <th>Name</th>
         <th>Designation</th>
         <th>Site Number</th>
+        <th>Phone Number</th>
       </tr>
     </thead>
     <tbody>
@@ -20,6 +21,7 @@
         <td>{{ m.name }}</td>
         <td>{{ m.designation }}</td>
         <td>{{ m.site_number }}</td>
+        <td>{{ m.phone_number or '' }}</td>
       </tr>
       {% endfor %}
     </tbody>

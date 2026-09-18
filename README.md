@@ -1,7 +1,7 @@
 # SMV Members
 
-A simple Flask app for managing a member roster: add members with a
-photo, view them in a table, and export the full roster as a PDF with
+A simple Flask app for managing a member of Sir M V Layout Members: add members with a
+photo, view them in a table, and export the full Sir M V Layout Members list as a PDF with
 each member's photo resized to a consistent stamp size.
 
 ## Features

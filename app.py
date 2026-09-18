@@ -22,7 +22,7 @@ STAMP_SIZE = (150, 180)  # width, height in px
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp", "bmp"}
 
 app = Flask(__name__)
-app.secret_key = "member-roster-dev-key"
+app.secret_key = "member-smvlayout-dev-key"
 
 
 def allowed_file(filename):
@@ -89,6 +89,7 @@ def add_member():
         name = request.form.get("name", "").strip()
         designation = request.form.get("designation", "").strip()
         site_number = request.form.get("site_number", "").strip()
+        phone_number = request.form.get("phone_number", "").strip()
 
         errors = []
         if not name:
@@ -97,6 +98,8 @@ def add_member():
             errors.append("Designation is required.")
         if not site_number:
             errors.append("Site Number is required.")
+        if not phone_number:
+            errors.append("Phone Number is required.")
 
         photo_file = request.files.get("photo")
         if photo_file and photo_file.filename and not allowed_file(photo_file.filename):
@@ -125,6 +128,7 @@ def add_member():
             "name": name,
             "designation": designation,
             "site_number": site_number,
+            "phone_number": phone_number,
             "photo": photo_thumb_name,
         })
         save_members(members)
@@ -133,24 +137,76 @@ def add_member():
     return render_template("add_member.html", errors=None, form={})
 
 
+@app.route("/members/edit/<int:member_id>", methods=["GET", "POST"])
+def edit_member(member_id):
+    members = load_members()
+    member = next((m for m in members if m["id"] == member_id), None)
+    if member is None:
+        return redirect(url_for("view_members"))
+
+    if request.method == "POST":
+        name = request.form.get("name", "").strip()
+        designation = request.form.get("designation", "").strip()
+        site_number = request.form.get("site_number", "").strip()
+        phone_number = request.form.get("phone_number", "").strip()
+
+        errors = []
+        if not name:
+            errors.append("Name is required.")
+        if not designation:
+            errors.append("Designation is required.")
+        if not site_number:
+            errors.append("Site Number is required.")
+        if not phone_number:
+            errors.append("Phone Number is required.")
+
+        photo_file = request.files.get("photo")
+        if photo_file and photo_file.filename and not allowed_file(photo_file.filename):
+            errors.append("Photo must be an image file (png, jpg, jpeg, gif, webp, bmp).")
+
+        if errors:
+            return render_template("edit_member.html", errors=errors, member=member, form=request.form)
+
+        member["name"] = name
+        member["designation"] = designation
+        member["site_number"] = site_number
+        member["phone_number"] = phone_number
+
+        if photo_file and photo_file.filename:
+            ext = photo_file.filename.rsplit(".", 1)[1].lower()
+            original_name = secure_filename(f"{member_id}.{ext}")
+            original_path = os.path.join(UPLOAD_DIR, original_name)
+            photo_file.save(original_path)
+
+            thumb_name = f"{member_id}.jpg"
+            thumb_path = os.path.join(THUMB_DIR, thumb_name)
+            make_stamp_thumb(original_path, thumb_path)
+            member["photo"] = thumb_name
+
+        save_members(members)
+        return redirect(url_for("view_members"))
+
+    return render_template("edit_member.html", errors=None, member=member, form=member)
+
+
 @app.route("/members/pdf")
 def members_pdf():
     members = load_members()
     buffer = io.BytesIO()
-    doc = SimpleDocTemplate(buffer, pagesize=letter, title="Members Roster")
+    doc = SimpleDocTemplate(buffer, pagesize=letter, title="Sir M V Layout Members")
     styles = getSampleStyleSheet()
 
-    elements = [Paragraph("Members Roster", styles["Title"]), Spacer(1, 12)]
+    elements = [Paragraph("Sir M V Layout Members", styles["Title"]), Spacer(1, 12)]
 
-    table_data = [["Photo", "Name", "Designation", "Site Number"]]
+    table_data = [["Photo", "Name", "Designation", "Site Number", "Phone Number"]]
     for m in members:
         thumb_path = os.path.join(THUMB_DIR, m.get("photo") or PLACEHOLDER_NAME)
         if not os.path.exists(thumb_path):
             thumb_path = os.path.join(THUMB_DIR, PLACEHOLDER_NAME)
         img = RLImage(thumb_path, width=1 * inch, height=1.2 * inch)
-        table_data.append([img, m["name"], m["designation"], m["site_number"]])
+        table_data.append([img, m["name"], m["designation"], m["site_number"], m.get("phone_number", "")])
 
-    table = Table(table_data, colWidths=[1.2 * inch, 2 * inch, 2 * inch, 1.6 * inch])
+    table = Table(table_data, colWidths=[1.1 * inch, 1.7 * inch, 1.7 * inch, 1.3 * inch, 1.3 * inch])
     table.setStyle(TableStyle([
         ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#2c3e50")),
         ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
