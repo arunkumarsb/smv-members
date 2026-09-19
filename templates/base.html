@@ -2,27 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sir M V Layout Members</title>
+  <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='img/sir-mv.jpg') }}">
   <style>
+    :root {
+      --navy: #1b3a5c;
+      --navy-deep: #10263f;
+      --gold: #c69a3d;
+      --gold-light: #e6c876;
+      --bg: #f7f5f0;
+      --card-bg: #ffffff;
+      --border: #e6e1d3;
+      --text: #23282d;
+      --muted: #6b7280;
+    }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      background: #f5f6f8;
-      color: #222;
+      background: var(--bg);
+      color: var(--text);
+    }
+    h1, h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--navy-deep);
     }
     nav {
-      background: #2c3e50;
+      background: linear-gradient(135deg, var(--navy), var(--navy-deep));
+      border-bottom: 3px solid var(--gold);
       padding: 0 20px;
       display: flex;
       align-items: center;
-      height: 56px;
+      height: 60px;
     }
     nav .brand {
+      display: flex;
+      align-items: center;
+      margin-right: 32px;
+    }
+    nav .brand img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold);
+      margin-right: 10px;
+    }
+    nav .brand-text {
       color: #fff;
       font-weight: 600;
-      font-size: 18px;
-      margin-right: 32px;
+      font-size: 16px;
+      line-height: 1.25;
+    }
+    nav .brand-text small {
+      display: block;
+      color: var(--gold-light);
+      font-weight: 400;
+      font-size: 11px;
+      letter-spacing: 0.03em;
     }
     nav a {
       color: #dfe6ec;
@@ -39,10 +77,11 @@
       padding: 0 20px;
     }
     .card {
-      background: #fff;
+      background: var(--card-bg);
       border-radius: 8px;
       padding: 24px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      border-top: 4px solid var(--gold);
     }
     h1 { margin-top: 0; }
     table {
@@ -51,12 +90,20 @@
     }
     th, td {
       padding: 10px 12px;
-      border-bottom: 1px solid #e5e5e5;
+      border-bottom: 1px solid var(--border);
       text-align: left;
       vertical-align: middle;
     }
     th {
-      background: #f0f2f4;
+      background: var(--navy);
+      color: #fff;
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    tbody tr:nth-child(even) {
+      background: #faf7ef;
     }
     img.thumb {
       width: 50px;
@@ -78,9 +125,14 @@
       border-radius: 4px;
       font-size: 14px;
     }
+    input[type=text]:focus, input[type=tel]:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(198, 154, 61, 0.2);
+    }
     button {
       margin-top: 20px;
-      background: #2c3e50;
+      background: var(--navy);
       color: #fff;
       border: none;
       padding: 10px 20px;
@@ -88,7 +140,7 @@
       font-size: 15px;
       cursor: pointer;
     }
-    button:hover { background: #1c2a36; }
+    button:hover { background: var(--navy-deep); }
     .errors {
       background: #fdecea;
       color: #b3261e;
@@ -98,17 +150,22 @@
     }
     .btn-link {
       display: inline-block;
-      background: #2c3e50;
+      background: var(--navy);
       color: #fff !important;
       padding: 6px 14px;
       border-radius: 4px;
       text-decoration: none;
     }
+    .btn-link:hover { background: var(--navy-deep); }
   </style>
+  {% block extra_head %}{% endblock %}
 </head>
 <body>
   <nav>
-    <span class="brand">Sir M V Layout Members</span>
+    <a class="brand" href="{{ url_for('home') }}" style="text-decoration:none;">
+      <img src="{{ url_for('static', filename='img/sir-mv.jpg') }}" alt="Sir M Visvesvaraya">
+      <span class="brand-text">Sir M V Layout<small>Block 2 &middot; Kengeri, Bengaluru</small></span>
+    </a>
     <a href="{{ url_for('home') }}">Home</a>
     <a href="{{ url_for('view_members') }}">View Members</a>
     <a href="{{ url_for('add_member') }}">Add Member</a>

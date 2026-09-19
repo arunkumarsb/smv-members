@@ -1,12 +1,102 @@
 {% extends "base.html" %}
+{% block extra_head %}
+<style>
+  .hero {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .hero-photo {
+    flex: 0 0 auto;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--gold);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .hero-text { flex: 1 1 260px; }
+  .hero-text h1 { margin-bottom: 6px; }
+  .hero-text p { color: var(--muted); margin: 4px 0 0; }
+  .about-panel {
+    margin-top: 22px;
+    padding: 18px 20px;
+    background: #faf6ea;
+    border: 1px solid var(--gold-light);
+    border-radius: 6px;
+  }
+  .about-panel h2 {
+    margin: 0 0 8px;
+    font-size: 18px;
+  }
+  .about-panel p {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .stats-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+  }
+  .stat-count {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 28px;
+    color: var(--navy-deep);
+  }
+  .stat-count span {
+    color: var(--gold);
+  }
+  .stat-label {
+    color: var(--muted);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .actions a { margin-right: 10px; }
+  .btn-link.secondary {
+    background: transparent;
+    color: var(--navy) !important;
+    border: 1px solid var(--navy);
+  }
+</style>
+{% endblock %}
 {% block content %}
 <div class="card">
-  <h1>Sir M V Layout Members</h1>
-  <p>Manage your member list, add new members with a photo, and export the
-  full Sir M V Layout Members list as a PDF.</p>
-  <p>Currently <strong>{{ member_count }}</strong> member(s) on file.</p>
-  <p>
-    <a class="btn-link" href="{{ url_for('add_member') }}">Add a Member</a>
-  </p>
+  <div class="hero">
+    <img class="hero-photo" src="{{ url_for('static', filename='img/sir-mv.jpg') }}" alt="Sir M Visvesvaraya">
+    <div class="hero-text">
+      <h1>Sir M V Layout &mdash; Block 2</h1>
+      <p>Kengeri, Bengaluru</p>
+      <p>Manage the resident member list, add members with a photo, and export the full roster as a PDF.</p>
+    </div>
+  </div>
+
+  <div class="about-panel">
+    <h2>About Sir M Visvesvaraya</h2>
+    <p>
+      This layout is named in honour of Sir Mokshagundam Visvesvaraya (1861&ndash;1962),
+      the celebrated engineer and statesman who served as Diwan of Mysore and designed
+      the Krishna Raja Sagara Dam. Awarded the Bharat Ratna in 1955, his birthday,
+      September 15, is observed across India as Engineer's Day.
+    </p>
+  </div>
+
+  <div class="stats-row">
+    <div>
+      <div class="stat-count"><span>{{ member_count }}</span> member(s)</div>
+      <div class="stat-label">currently on file</div>
+    </div>
+    <div class="actions">
+      <a class="btn-link" href="{{ url_for('add_member') }}">Add a Member</a>
+      <a class="btn-link secondary" href="{{ url_for('view_members') }}">View Members</a>
+    </div>
+  </div>
 </div>
 {% endblock %}
