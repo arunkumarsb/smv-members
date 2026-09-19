@@ -27,7 +27,7 @@
     <input type="tel" id="phone_number" name="phone_number" value="{{ form.get('phone_number', '') }}">
 
     <label for="photo">Photo (leave blank to keep current)</label>
-    <input type="file" id="photo" name="photo" accept="image/*">
+    <input type="file" id="photo" name="photo" accept="image/*" capture="environment">
 
     <button type="submit">Save Changes</button>
   </form>
