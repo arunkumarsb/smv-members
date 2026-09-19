@@ -24,6 +24,9 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp", "bmp"}
 app = Flask(__name__)
 app.secret_key = "member-smvlayout-dev-key"
 
+os.makedirs(os.path.dirname(DATA_FILE), exist_ok=True)
+os.makedirs(THUMB_DIR, exist_ok=True)
+
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -69,6 +72,9 @@ def make_stamp_thumb(source_path, dest_path):
 
 def next_id(members):
     return (max((m["id"] for m in members), default=0)) + 1
+
+
+ensure_placeholder()
 
 
 @app.route("/")
@@ -231,7 +237,4 @@ def members_pdf():
 
 
 if __name__ == "__main__":
-    os.makedirs(os.path.dirname(DATA_FILE), exist_ok=True)
-    os.makedirs(THUMB_DIR, exist_ok=True)
-    ensure_placeholder()
     app.run(debug=True, port=8080)
